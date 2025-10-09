@@ -24,7 +24,7 @@ class MemberTest {
             }
         };
 
-        member = Member.create("nk@splearn.app", "nk", "secret", passwordEncoder);
+        member = Member.create(new MemberCreateRequest("nk@splearn.app", "nk", "secret"), passwordEncoder);
     }
 
     @Test
@@ -87,5 +87,18 @@ class MemberTest {
         member.changePassword("verysecret", passwordEncoder);
 
         assertThat(member.verifyPassword("verysecret", passwordEncoder)).isTrue();
+    }
+
+    @Test
+    void isActive() {
+        assertThat(member.isActive()).isFalse();
+
+        member.activate();
+
+        assertThat(member.isActive()).isTrue();
+
+        member.deactivate();
+
+        assertThat(member.isActive()).isFalse();
     }
 }
