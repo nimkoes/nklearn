@@ -3,15 +3,13 @@ package nkspring.splearn.domain;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.Objects;
-
-import static java.util.Objects.*;
+import static java.util.Objects.requireNonNull;
 import static org.springframework.util.Assert.state;
 
 @Getter
 @ToString
 public class Member {
-    private String email;
+    private Email email;
     private String nickname;
     private String passwordHash;
     private MemberStatus status;
@@ -22,7 +20,7 @@ public class Member {
     public static Member create(MemberCreateRequest createRequest, PasswordEncoder passwordEncoder) {
         Member member = new Member();
 
-        member.email = requireNonNull(createRequest.email());
+        member.email = new Email(createRequest.email());
         member.nickname = requireNonNull(createRequest.nickname());
         member.passwordHash = requireNonNull(passwordEncoder.encode(createRequest.password()));
 
