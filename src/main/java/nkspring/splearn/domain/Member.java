@@ -1,21 +1,32 @@
 package nkspring.splearn.domain;
 
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import static java.util.Objects.requireNonNull;
 import static org.springframework.util.Assert.state;
 
+@Entity
 @Getter
 @ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
-    private Email email;
-    private String nickname;
-    private String passwordHash;
-    private MemberStatus status;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private Member() {
-    }
+    @Embedded
+    private Email email;
+
+    private String nickname;
+
+    private String passwordHash;
+
+    @Enumerated(EnumType.STRING)
+    private MemberStatus status;
 
     public static Member register(MemberRegisterRequest registerRequest, PasswordEncoder passwordEncoder) {
         Member member = new Member();
