@@ -1,13 +1,18 @@
 package nkspring.splearn.application;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import nkspring.splearn.application.provided.MemberRegister;
 import nkspring.splearn.application.required.EmailSender;
 import nkspring.splearn.application.required.MemberRepository;
 import nkspring.splearn.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 @Service
+@Transactional
+@Validated
 @RequiredArgsConstructor
 public class MemberService implements MemberRegister {
     private final MemberRepository memberRepository;
@@ -15,7 +20,7 @@ public class MemberService implements MemberRegister {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public Member register(MemberRegisterRequest registerRequest) {
+    public Member register(@Valid MemberRegisterRequest registerRequest) {
         checkDuplicateEmail(registerRequest);
 
         Member member = Member.register(registerRequest, passwordEncoder);

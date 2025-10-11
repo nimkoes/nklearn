@@ -1,10 +1,8 @@
 package nkspring.splearn.application.provided;
 
+import jakarta.validation.ConstraintViolationException;
 import nkspring.splearn.SplearnTestConfiguration;
-import nkspring.splearn.domain.DuplicateEmailException;
-import nkspring.splearn.domain.Member;
-import nkspring.splearn.domain.MemberFixture;
-import nkspring.splearn.domain.MemberStatus;
+import nkspring.splearn.domain.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -33,5 +31,17 @@ public record MemberRegisterTest(MemberRegister memberRegister) {
         assertThatThrownBy(() -> {
             memberRegister.register(MemberFixture.createMemberRegisterRequest());
         }).isInstanceOf(DuplicateEmailException.class);
+    }
+
+    @Test
+    void memberRegisterRequestFail() {
+        extracted(new MemberRegisterRequest("nk@splearn.app", "nk", "longsecret"));
+        extracted(new MemberRegisterRequest("nk@splearn.app", "Charlie____________________________", "longsecret"));
+        extracted(new MemberRegisterRequest("nksplearn.app", "Charlie", "longsecret"));
+    }
+
+    private void extracted(MemberRegisterRequest invalid) {
+        assertThatThrownBy(() -> memberRegister.register(invalid))
+                .isInstanceOf(ConstraintViolationException.class);
     }
 }
