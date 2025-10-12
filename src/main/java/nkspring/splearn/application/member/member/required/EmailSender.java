@@ -1,6 +1,6 @@
-package nkspring.splearn.application.required;
+package nkspring.splearn.application.member.member.required;
 
-import nkspring.splearn.domain.Email;
+import nkspring.splearn.domain.shared.Email;
 
 /**
  * 이메일을 발송한다

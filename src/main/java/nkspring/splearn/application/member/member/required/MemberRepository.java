@@ -1,7 +1,7 @@
-package nkspring.splearn.application.required;
+package nkspring.splearn.application.member.member.required;
 
-import nkspring.splearn.domain.Email;
-import nkspring.splearn.domain.Member;
+import nkspring.splearn.domain.shared.Email;
+import nkspring.splearn.domain.member.Member;
 import org.springframework.data.repository.Repository;
 
 import java.util.Optional;

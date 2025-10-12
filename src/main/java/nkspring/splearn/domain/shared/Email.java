@@ -1,4 +1,4 @@
-package nkspring.splearn.domain;
+package nkspring.splearn.domain.shared;
 
 import java.util.regex.Pattern;
 

@@ -1,9 +1,11 @@
-package nkspring.splearn.application.provided;
+package nkspring.splearn.application.member.provided;
 
 import jakarta.persistence.EntityManager;
 import nkspring.splearn.SplearnTestConfiguration;
-import nkspring.splearn.domain.Member;
-import nkspring.splearn.domain.MemberFixture;
+import nkspring.splearn.application.member.member.provided.MemberFinder;
+import nkspring.splearn.application.member.member.provided.MemberRegister;
+import nkspring.splearn.domain.member.Member;
+import nkspring.splearn.domain.member.MemberFixture;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;

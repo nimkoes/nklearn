@@ -1,9 +1,10 @@
-package nkspring.splearn.application.provided;
+package nkspring.splearn.application.member.provided;
 
 import jakarta.persistence.EntityManager;
 import jakarta.validation.ConstraintViolationException;
 import nkspring.splearn.SplearnTestConfiguration;
-import nkspring.splearn.domain.*;
+import nkspring.splearn.application.member.member.provided.MemberRegister;
+import nkspring.splearn.domain.member.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;

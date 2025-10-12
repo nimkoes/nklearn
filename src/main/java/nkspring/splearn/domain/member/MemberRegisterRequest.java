@@ -1,4 +1,4 @@
-package nkspring.splearn.domain;
+package nkspring.splearn.domain.member;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;

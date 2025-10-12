@@ -1,7 +1,6 @@
 package nkspring.splearn.adapter.integration;
 
-import nkspring.splearn.domain.Email;
-import org.assertj.core.api.Assertions;
+import nkspring.splearn.domain.shared.Email;
 import org.junit.jupiter.api.Test;
 import org.junitpioneer.jupiter.StdIo;
 import org.junitpioneer.jupiter.StdOut;

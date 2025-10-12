@@ -1,4 +1,4 @@
-package nkspring.splearn.domain;
+package nkspring.splearn.domain.member;
 
 public class MemberFixture {
     public static MemberRegisterRequest createMemberRegisterRequest(String email) {

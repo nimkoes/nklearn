@@ -1,8 +1,8 @@
 package nkspring.splearn;
 
-import nkspring.splearn.application.required.EmailSender;
-import nkspring.splearn.domain.MemberFixture;
-import nkspring.splearn.domain.PasswordEncoder;
+import nkspring.splearn.application.member.member.required.EmailSender;
+import nkspring.splearn.domain.member.MemberFixture;
+import nkspring.splearn.domain.member.PasswordEncoder;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 

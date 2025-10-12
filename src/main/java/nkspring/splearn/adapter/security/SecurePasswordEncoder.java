@@ -1,6 +1,6 @@
 package nkspring.splearn.adapter.security;
 
-import nkspring.splearn.domain.PasswordEncoder;
+import nkspring.splearn.domain.member.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 

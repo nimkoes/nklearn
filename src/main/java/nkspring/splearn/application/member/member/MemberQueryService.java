@@ -1,9 +1,9 @@
-package nkspring.splearn.application;
+package nkspring.splearn.application.member.member;
 
 import lombok.RequiredArgsConstructor;
-import nkspring.splearn.application.provided.MemberFinder;
-import nkspring.splearn.application.required.MemberRepository;
-import nkspring.splearn.domain.Member;
+import nkspring.splearn.application.member.member.provided.MemberFinder;
+import nkspring.splearn.application.member.member.required.MemberRepository;
+import nkspring.splearn.domain.member.Member;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;

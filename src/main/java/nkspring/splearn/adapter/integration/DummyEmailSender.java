@@ -1,7 +1,7 @@
 package nkspring.splearn.adapter.integration;
 
-import nkspring.splearn.application.required.EmailSender;
-import nkspring.splearn.domain.Email;
+import nkspring.splearn.application.member.member.required.EmailSender;
+import nkspring.splearn.domain.shared.Email;
 import org.springframework.context.annotation.Fallback;
 import org.springframework.stereotype.Component;
 
