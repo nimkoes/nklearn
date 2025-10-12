@@ -6,10 +6,7 @@ import nkspring.splearn.application.member.member.provided.MemberFinder;
 import nkspring.splearn.application.member.member.provided.MemberRegister;
 import nkspring.splearn.application.member.member.required.EmailSender;
 import nkspring.splearn.application.member.member.required.MemberRepository;
-import nkspring.splearn.domain.member.DuplicateEmailException;
-import nkspring.splearn.domain.member.Member;
-import nkspring.splearn.domain.member.MemberRegisterRequest;
-import nkspring.splearn.domain.member.PasswordEncoder;
+import nkspring.splearn.domain.member.*;
 import nkspring.splearn.domain.shared.Email;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +40,24 @@ public class MemberModifyService implements MemberRegister {
         Member member = memberFinder.find(memberId);
 
         member.activate();
+
+        return memberRepository.save(member);
+    }
+
+    @Override
+    public Member deactivate(Long memberId) {
+        Member member = memberFinder.find(memberId);
+
+        member.deactivate();
+
+        return memberRepository.save(member);
+    }
+
+    @Override
+    public Member updateInfo(Long memberId, @Valid MemberInfoUpdateRequest memberInfoUpdateRequest) {
+        Member member = memberFinder.find(memberId);
+
+        member.updateInfo(memberInfoUpdateRequest);
 
         return memberRepository.save(member);
     }

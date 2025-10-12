@@ -5,6 +5,7 @@ import jakarta.validation.ConstraintViolationException;
 import nkspring.splearn.SplearnTestConfiguration;
 import nkspring.splearn.application.member.member.provided.MemberRegister;
 import nkspring.splearn.domain.member.*;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -37,15 +38,48 @@ record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityMan
 
     @Test
     void activate() {
-        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
-        entityManager.flush();
-        entityManager.clear();
+        Member member = registerMember();
 
         member = memberRegister.activate(member.getId());
 
         entityManager.flush();
 
         assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
+        assertThat(member.getDetail().getActivatedAt()).isNotNull();
+    }
+
+    @Test
+    void deactivate() {
+        Member member = registerMember();
+
+        memberRegister.activate(member.getId());
+        entityManager.flush();
+        entityManager.clear();
+
+        member = memberRegister.deactivate(member.getId());
+
+        assertThat(member.getStatus()).isEqualTo(MemberStatus.DEACTIVATED);
+        assertThat(member.getDetail().getDeactivatedAt()).isNotNull();
+    }
+
+    @Test
+    void updateInfo() {
+        Member member = registerMember();
+
+        memberRegister.activate(member.getId());
+        entityManager.flush();
+        entityManager.clear();
+
+        member = memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("Peter", "nk123", "자기소개"));
+
+        Assertions.assertThat(member.getDetail().getProfile().address()).isEqualTo("nk123");
+    }
+
+    private Member registerMember() {
+        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
+        entityManager.flush();
+        entityManager.clear();
+        return member;
     }
 
     @Test
