@@ -75,11 +75,36 @@ record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityMan
         Assertions.assertThat(member.getDetail().getProfile().address()).isEqualTo("nk123");
     }
 
-    private Member registerMember() {
-        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
+    @Test
+    void updateInfoFail() {
+        Member member = registerMember();
+        memberRegister.activate(member.getId());
+        memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("Peter", "nk123", "자기소개"));
+
+        Member member2 = registerMember("nk2@splearn.app");
+        memberRegister.activate(member2.getId());
+
         entityManager.flush();
         entityManager.clear();
-        return member;
+
+        // member2 는 기존의 member 와 같ㅇ느 프로필 주소를 사용할 수 없다
+        assertThatThrownBy(() -> {
+            memberRegister.updateInfo(member2.getId(), new MemberInfoUpdateRequest("James", "nk123", "introduction"));
+        }).isInstanceOf(DuplicateProfileException.class);
+
+        // 다른 프로필 주소로는 변경 가능
+        memberRegister.updateInfo(member2.getId(), new MemberInfoUpdateRequest("James", "nk12345", "introduction"));
+
+        // 기존 프로필 주소를 바꾸는 것도 가능
+        memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("James", "nk123", "introduction"));
+
+        // 프로필 주소를 제거하는 것도 가능
+        memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("James", "", "introduction"));
+
+        // 프로필 주소 중복은 허용하지 않음
+        assertThatThrownBy(() -> {
+            memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("James", "nk12345", "introduction"));
+        }).isInstanceOf(DuplicateProfileException.class);
     }
 
     @Test
@@ -87,6 +112,20 @@ record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityMan
         checkValidation(new MemberRegisterRequest("nk@splearn.app", "nk", "longsecret"));
         checkValidation(new MemberRegisterRequest("nk@splearn.app", "Charlie____________________________", "longsecret"));
         checkValidation(new MemberRegisterRequest("nksplearn.app", "Charlie", "longsecret"));
+    }
+
+    private Member registerMember() {
+        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
+        entityManager.flush();
+        entityManager.clear();
+        return member;
+    }
+
+    private Member registerMember(String email) {
+        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest(email));
+        entityManager.flush();
+        entityManager.clear();
+        return member;
     }
 
     private void checkValidation(MemberRegisterRequest invalid) {
